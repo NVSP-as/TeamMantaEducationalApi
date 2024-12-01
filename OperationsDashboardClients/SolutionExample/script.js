@@ -1,21 +1,27 @@
-// URL of the API endpoint
 const apiUrl = "https://localhost:7142/Operations";
 
-// Function to fetch and display operations data
 async function fetchOperations() {
   try {
     const response = await fetch(apiUrl);
-    if (!response.ok) throw new Error("Failed to fetch operations.");
-
     const data = await response.json();
     displayOperations(data);
   } catch (error) {
-    console.error("Error:", error);
+    const loaderContainer = document.getElementById("loader");
+    loaderContainer.style.display = "none";
+
+    const errorContainer = document.getElementById("error");
+    errorContainer.style.display = "flex";
+    errorContainer.innerHTML = `<h3>Error: ${error.message}</h3>`;
   }
 }
 
-// Function to display operations grouped by type
 function displayOperations(operations) {
+  const mainContainer = document.getElementById("container");
+  mainContainer.style.display = "flex";
+
+  const loaderContainer = document.getElementById("loader");
+  loaderContainer.style.display = "none";
+
   const queueContainer = document.getElementById("queue").querySelector(".cards");
   const inProgressContainer = document.getElementById("in-progress").querySelector(".cards");
   const doneContainer = document.getElementById("done").querySelector(".cards");
